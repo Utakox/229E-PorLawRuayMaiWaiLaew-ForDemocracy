@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class DissolutionSpawner : MonoBehaviour
 {
@@ -8,8 +9,12 @@ public class DissolutionSpawner : MonoBehaviour
     public float shootInterval = 5f;  // รอบการยิงทุกๆ กี่วินาที
     public float yRange = 3f;         // ระยะสุ่มความสูง
 
+    public AudioClip warningSound; // ลากเสียงเตือนมาใส่
+
     private void Start()
     {
+        // warningSound.GetComponent<AudioSource>().playOnAwake = false; // ปิดเสียงตอนเริ่มเกม
+
         // มั่นใจว่าตอนเริ่มเกมรูปศาลปิดอยู่
         if (warningUI != null) warningUI.SetActive(false);
         
@@ -24,6 +29,11 @@ public class DissolutionSpawner : MonoBehaviour
             // 1. รอจนครบเวลาที่กำหนดไว้
             yield return new WaitForSeconds(shootInterval);
 
+            // เล่นเสียงเตือน (ถ้ามี)
+            // if (warningSound != null)
+            // {
+            //     AudioSource.PlayClipAtPoint(warningSound, transform.position);
+            // }
             // 2. เปิดรูปศาลแจ้งเตือน
             if (warningUI != null) warningUI.SetActive(true);
 

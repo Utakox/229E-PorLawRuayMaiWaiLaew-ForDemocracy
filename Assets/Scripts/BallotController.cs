@@ -12,6 +12,7 @@ public class BallotController : MonoBehaviour
     // ── Zone Air Resistance ──
     private bool inAirResistanceZone = false;
     private float zoneDragCoefficient = 0f;
+    private Vector2 externalForce = Vector2.zero;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class BallotController : MonoBehaviour
         }
     }
 
+
     void FixedUpdate()
     {
         // Air Resistance ปกติ (เกิดตลอดเวลา)
@@ -39,13 +41,20 @@ public class BallotController : MonoBehaviour
             Vector2 zoneDragForce = -zoneDragCoefficient * rb.velocity; // F = -bv
             rb.AddForce(zoneDragForce);
         }
+        rb.AddForce(externalForce);
     }
 
+    public void SetExternalForce(Vector2 force)
+    {
+    externalForce = force;
+    }
     void Flap()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * flapForce, ForceMode2D.Impulse);
     }
+
+
 
     // ── เรียกจาก AirResistanceZone ──
     public void EnterZone(float b)
