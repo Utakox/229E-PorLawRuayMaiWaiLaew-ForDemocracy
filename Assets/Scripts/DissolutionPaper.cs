@@ -6,8 +6,12 @@ public class DissolutionPaper : MonoBehaviour
     public float mass = 1.0f;            // มวล (m)
     public float targetAcceleration = 40f; // ความเร่ง (a)
 
+    private BallotController gameOverController;
+
     void Start()
     {
+        // หา BallotController ในฉากเพื่อเรียกใช้ฟังก์ชัน GameOver
+        gameOverController = FindObjectOfType<BallotController>();
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -29,11 +33,10 @@ public class DissolutionPaper : MonoBehaviour
         {
             Debug.Log("Game Over: โดนยุบพรรค!");
             
-            // เรียกฟังก์ชันจบเกมจาก GameManager ของคุณ (ตัวอย่างเช่น)
-            // FindObjectOfType<GameManager>().GameOver();
-            
-            // หรือถ้าจะทดสอบแบบง่ายที่สุดคือหยุดเวลาเกม
-            Time.timeScale = 0f; 
+            if (gameOverController != null)            
+            {
+                gameOverController.GameOver();
+            }
         }
         
         // ถ้าชน EndZone ให้ทำลายตัวเอง (ป้องกันการกินสเปคเครื่อง)

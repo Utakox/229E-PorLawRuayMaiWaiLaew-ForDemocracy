@@ -48,9 +48,5 @@ public class MasterObstacleSpawner : MonoBehaviour
             // ใช้ selectedPrefab.transform.rotation เพื่อให้มันหันหน้าตามที่ตั้งไว้ใน Prefab ครับ
             Instantiate(selectedPrefab, spawnPos, selectedPrefab.transform.rotation);
         }
-        else
-        {
-            Debug.LogWarning("อย่าลืมลาก Prefab อุปสรรคใส่ในลิสต์ที่ Inspector นะครับ!");
-        }
     }
 }

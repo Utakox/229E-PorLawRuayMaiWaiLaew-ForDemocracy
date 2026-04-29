@@ -1,24 +1,25 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class DissolutionSpawner : MonoBehaviour
 {
-    public GameObject paperPrefab;    // ลาก Prefab กระดาษยุบพรรคมาใส่
-    public GameObject warningUI;      // ลาก UI Image รูปศาลมาใส่ (ต้องปิดไว้ก่อนในเริ่มต้น)
-    public float shootInterval = 5f;  // รอบการยิงทุกๆ กี่วินาที
-    public float yRange = 3f;         // ระยะสุ่มความสูง
+    public GameObject paperPrefab;
+    public GameObject warningUI;
+    public float shootInterval = 5f;
+    public float yRange = 3f;
+    public AudioClip warningSound;
 
-    public AudioClip warningSound; // ลากเสียงเตือนมาใส่
+    private AudioSource audioSource; // เพิ่ม AudioSource ที่ตัว Spawner เอง
 
     private void Start()
     {
-        // warningSound.GetComponent<AudioSource>().playOnAwake = false; // ปิดเสียงตอนเริ่มเกม
-
-        // มั่นใจว่าตอนเริ่มเกมรูปศาลปิดอยู่
         if (warningUI != null) warningUI.SetActive(false);
-        
-        // เริ่มลูปการยิง
+
+        // เพิ่ม AudioSource บน GameObject นี้แทน
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.clip = warningSound;
+
         StartCoroutine(ShootingRoutine());
     }
 
@@ -26,21 +27,20 @@ public class DissolutionSpawner : MonoBehaviour
     {
         while (true)
         {
-            // 1. รอจนครบเวลาที่กำหนดไว้
             yield return new WaitForSeconds(shootInterval);
 
-            // เล่นเสียงเตือน (ถ้ามี)
-            // if (warningSound != null)
-            // {
-            //     AudioSource.PlayClipAtPoint(warningSound, transform.position);
-            // }
-            // 2. เปิดรูปศาลแจ้งเตือน
+            // เล่นเสียงเตือน
+            if (audioSource != null && warningSound != null)
+            {
+                audioSource.Play();
+            }
+
             if (warningUI != null) warningUI.SetActive(true);
 
-            // 3. รอ 2 วิ ตามที่โจทย์สั่ง
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
 
-            // 4. ปิดรูปศาล แล้วทำการยิง
+            // หยุดเสียงแล้วซ่อน UI
+            audioSource.Stop();
             if (warningUI != null) warningUI.SetActive(false);
             SpawnPaper();
         }
@@ -50,8 +50,6 @@ public class DissolutionSpawner : MonoBehaviour
     {
         float randomY = transform.position.y + Random.Range(-yRange, yRange);
         Vector3 spawnPos = new Vector3(transform.position.x, randomY, transform.position.z);
-        
-        // สร้างกระดาษออกมา (สคริปต์ที่ตัวมันเองจะสั่งพุ่งด้วย F=ma)
         Instantiate(paperPrefab, spawnPos, paperPrefab.transform.rotation);
     }
 }
