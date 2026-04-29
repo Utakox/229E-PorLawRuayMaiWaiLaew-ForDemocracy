@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 999837e2c1c572944a04c4d6d33f3f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleMover
-  moveSpeed: 2
+  moveSpeed: 2.4
 --- !u!61 &7716209696163655523
 BoxCollider2D:
   m_ObjectHideFlags: 0

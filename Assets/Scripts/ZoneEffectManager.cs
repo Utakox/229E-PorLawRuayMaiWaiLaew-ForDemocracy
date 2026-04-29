@@ -81,13 +81,13 @@ public class ZoneEffectManager : MonoBehaviour
 
             case 1:
                 Debug.Log("โซน: รัฐประหาร!");
-                ShowZoneText("Entering Coup Zone — Gravitational Pull Activated");
+                ShowZoneText("Entering Coup Zone | Gravitational Pull Activated");
                 activeCoroutine = StartCoroutine(GravitationalPullLoop());
                 break;
 
             case 2:
-                Debug.Log("โซน: รัฐสภา!");
-                ShowZoneText("Entering Parliament Zone — Constant Force Activated!");
+                Debug.Log("โซน: สตง!");
+                ShowZoneText("Entering Stable Zone | Constant Force Activated!");
                 if (parliamentZone != null)
                     parliamentZone.SetActive(true);
                 if (cf != null)

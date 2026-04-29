@@ -1,7 +1,5 @@
-using Microsoft.Unity.VisualStudio.Editor;
-using TMPro;
-using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
